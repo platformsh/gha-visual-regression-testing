@@ -66,8 +66,12 @@ let defaultPaths= require(__dirname+path.sep+'default-paths.js');
  * @type {*[]}
  */
 let newScenarios = [];
-
+/**
+ * Our collection of path objects after merging defaults and template paths
+ * @type {*[]}
+ */
 let scenarioPaths;
+
 try {
   //console.log("Going to try and require " + pathFile);
   const templatePaths = require(pathFile);
@@ -78,22 +82,28 @@ try {
   scenarioPaths = defaultPaths.paths;
 }
 
-/**
- * @todo we need to allow for a deep merge so that the template-paths.js can include an override for the Home and
- * Forced 404 paths.
- */
-for (let i=0;i<scenarioPaths.length;++i) {
-  let newScenario = scenarioPaths[i];
-  let newPath = newScenario.path;
-  scenarioPaths[i].referenceUrl = `${baselineURL}${newPath}`;
-  scenarioPaths[i].url = `${testURL}${newPath}`;
+//now that we have our initial collection of paths, we need to merge any that are duplicates
+newScenarios = scenarioPaths.reduce((accumulator, currentValue, currentIndex, array) => {
+  //have we already processed a path with this label?
+  let alreadyExists = Object.keys(accumulator).filter(k=>accumulator[k]['label'] === currentValue['label']);
 
+  if ( alreadyExists.length > 0 ) {
+    //we've already processed this path, so let's merge this one in with the existing one
+    accumulator[parseInt(alreadyExists[0])] = {...accumulator[parseInt(alreadyExists[0])], ...currentValue};
+  } else {
+    accumulator.push(currentValue);
+  }
 
-  //now that we have referenceURL and url, we dont need path anymore
-  delete newScenario.path;
+  return accumulator;
 
-  newScenarios.push(newScenario);
-}
+// now that we've merged all the paths down into a unique (by label) collection, append our urls to the paths
+}, []).map(function(element,index) {
+  element.referenceUrl = `${this.ref}${element.path}`;
+  element.url = `${this.test}${element.path}`;
+  //we no longer need the path property
+  delete element.path;
+  return element;
+},{"ref":baselineURL,"test":testURL});
 
 module.exports = {
   scenarios:newScenarios
