@@ -22,6 +22,20 @@ var scenarioPaths = {};
  * https://master-7rqtwti-fqfjrmtjbjta4.eu-3.platformsh.site/a/path/to/foo/bar/
  * Then for `path` it should be "a/path/to/foo/bar/"
  *
+ * If you wish to override the default paths or add to them, create an object in the template-paths.js file with the
+ * exact same label name, and then any properties you wish to add/change. For example, if the template needs a delay of
+ * 2 seconds for the Forced 404 path, you can add the following:
+ * <code>
+ * scenarioPaths.paths = [
+ * {
+ *       "label": "Forced 404",
+ *       "delay": 2000,
+ *   }
+ * ];
+ * </code>
+ *
+ * The action will merge the delay property with the path from the defaults-paths collection.
+ *
  * @type {{path: string, label: string}[]}
  */
 scenarioPaths.paths = [
