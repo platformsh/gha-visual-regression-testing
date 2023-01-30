@@ -85,7 +85,6 @@ try {
 //now that we have our initial collection of paths, we need to merge any that are duplicates
 newScenarios = scenarioPaths.reduce((accumulator, currentValue) => {
   //have we already processed a path with this label?
-  //let alreadyExists = Object.keys(accumulator).filter(k=>accumulator[k]['label'] === currentValue['label']);
   let alreadyExists = accumulator.findIndex(item => item.label === currentValue.label);
   if ( alreadyExists.length != -1 ) {
     //we've already processed this path, so let's merge this one in with the existing one
