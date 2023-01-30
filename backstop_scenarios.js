@@ -86,7 +86,7 @@ try {
 newScenarios = scenarioPaths.reduce((accumulator, currentValue) => {
   //have we already processed a path with this label?
   let alreadyExists = accumulator.findIndex(item => item.label === currentValue.label);
-  if ( alreadyExists.length != -1 ) {
+  if ( alreadyExists != -1 ) {
     //we've already processed this path, so let's merge this one in with the existing one
     accumulator[parseInt(alreadyExists)] = {...accumulator[parseInt(alreadyExists)], ...currentValue};
   } else {
