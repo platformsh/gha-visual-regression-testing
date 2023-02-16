@@ -117,7 +117,8 @@ runs:
       working-directory: ${{ github.action_path }}
       run: |
         echo "::notice::Starting backstopjs to generate baseline images using ${{inputs.baseline_url}}."
-        suppress=$(npm run-script backstop:reference -- --refURL="${{inputs.baseline_url}}" --testURL="${{inputs.test_url}}" --testPath="${{env.paths_location}}")
+        # suppress=$(npm run-script backstop:reference -- --refURL="${{inputs.baseline_url}}" --testURL="${{inputs.test_url}}" --testPath="${{env.paths_location}}")
+        npm run-script backstop:reference -- --refURL="${{inputs.baseline_url}}" --testURL="${{inputs.test_url}}" --testPath="${{env.paths_location}}"
     #
     # Now we actually do the visual regression test
     - name: 'run test'
@@ -129,6 +130,7 @@ runs:
         set +e
         echo "::notice::Starting Backstop VRT testing against ${{inputs.test_url}}"
         suppress=$(npm run-script backstop:test -- --refURL="${{inputs.baseline_url}}" --testURL="${{inputs.test_url}}" --testPath="${{env.paths_location}}")
+        npm run-script backstop:test -- --refURL="${{inputs.baseline_url}}" --testURL="${{inputs.test_url}}" --testPath="${{env.paths_location}}"
         testresults=$?
         echo "::notice::Visual Regression Testing complete. Preparing results..."
         
