@@ -13,6 +13,8 @@ const args = require('minimist')(process.argv.slice(2));
  */
 const {scenarios} = require(`./backstop_scenarios`);
 
+console.log(scenarios);
+
 //console.log("testURL given to backstop is " + args.testURL);
 //console.log("refURL given to backstop is " + args.refURL);
 
