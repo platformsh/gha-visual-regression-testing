@@ -104,6 +104,8 @@ newScenarios = scenarioPaths.reduce((accumulator, currentValue) => {
   return element;
 },{"ref":baselineURL,"test":testURL});
 
+console.log(newScenarios);
+
 module.exports = {
   scenarios:newScenarios
 }
