@@ -38,31 +38,19 @@ runs:
     # Test that the Baseline/Reference URL returns a 200
     - name: 'Test Baseline URL'
       id: test-baseline-url
-      shell: bash
-      run: |
-        url=${{ inputs.baseline_url }}
-        response=$(curl -s -o /dev/null -I -X GET -w "%{http_code}" "${url//http:/https:}");
-        if [[ "200" == "${response}" ]]; then
-          echo "::notice::Environment responded with http header 200"
-        else
-          echo "::error::Response from environment was something other than 200. Response returned was ${response}"
-          exit 1;
-        fi
+      uses: platformsh/gha-check-url@main
+      with:
+        test_url: ${{ inputs.baseline_url }}
     #
     # Test that the URL for the site to test returns a 200
     # @todo since this is a repeat of the previous step, consider making it an action we can reuse
     - name: 'Test Testing URL'
       id: verify-repo
-      shell: bash
-      run: |
-        url=${{ inputs.test_url }}
-        response=$(curl -s -o /dev/null -I -X GET -w "%{http_code}" "${url//http:/https:}");
-        if [[ "200" == "${response}" ]]; then
-          echo "::notice::Environment responded with http header 200"
-        else
-          echo "::error::Response from environment was something other than 200. Response returned was ${response}"
-          exit 1;
-        fi
+      uses: platformsh/gha-check-url@main
+      with:
+        test_url: ${{ inputs.test_url }}
+        # sometimes the PR environment hasnt procured its ssl certificate before the tests begin
+        allow_insecure: 'true'
     #
     # Check that what the calling workflow gave us for report_results is something we can use
     - name: 'Verify return value'
