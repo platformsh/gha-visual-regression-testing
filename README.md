@@ -14,9 +14,14 @@ additional directions. Advanced scenario properties/options can be added.
 * `baseline_url` - **REQUIRED**. Full URL to the "production" version of the site/project. This URL is used to create
   the reference set of images in the visual regression tests. It *must* include a trailing slash.
 * `test_url` - **REQUIRED**. Full URL of the pull request environment that will be tested against the baseline. It *must* include a trailing slash.
-*  `report_results` - Optional. Should the action report the results back to the calling workflow (true) or 
+* `report_results` - Optional. Should the action report the results back to the calling workflow (true) or 
 pass/fail directly (false)? _Default is false_.
 * `paths_location` - Optional. Path to the template-paths.js file. _Default is `./.github/tests/vrt/` from the template's repository root_.
+* `baseline_url_response` - _Optional_. The HTTP response status code we expect from the server for the baseline URL. _Defaults to 200_
+* `test_url_response` - _Optional_. The HTTP response status code we expect from the server for the test URL. _Defaults to 200_
+* `baseline_url_insecure` - _Optional_. Should we use the `--insecure` flag with curl when testing the baseline URL? _Defaults to false_
+* `test_url_insecure` - _Optional_. Should we use the `--insecure` flag with curl when testing the test URL? _Defaults to false_
+
 ## Outputs
 * `results` - String of `true`|`false` indicating if the visual regression test passed/failed. 
 ## Example Usage
