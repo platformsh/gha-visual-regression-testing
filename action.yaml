@@ -18,6 +18,22 @@ inputs:
     description: 'Percentage of different pixels allowed to pass test. NOT CURRENTLY IMPLEMENTED.'
     required: false
     default: "0.1"
+  baseline_url_response:
+    description: 'The HTTP response status code we expect from the server for the baseline URL. Defaults to 200'
+    required: false
+    default: 200
+  test_url_response:
+    description: 'The HTTP response status code we expect from the server for the test URL. Defaults to 200'
+    required: false
+    default: 200
+  baseline_url_insecure:
+    description: 'Should we use the --insecure flag with curl when testing the baseline URL? Defaults to false'
+    required: false
+    default: 'false'
+  test_url_insecure:
+    description: 'Should we use the --insecure flag with curl when testing the test URL? Defaults to false'
+    required: false
+    default: 'false'
 outputs:
   results:
     description: "Reports from VRT"
@@ -41,6 +57,8 @@ runs:
       uses: platformsh/gha-check-url@main
       with:
         test_url: ${{ inputs.baseline_url }}
+        https_response: ${{ inputs.baseline_url_response }}
+        allow_insecure: ${{ inputs.baseline_url_insecure }}
     #
     # Test that the URL for the site to test returns a 200
     # @todo since this is a repeat of the previous step, consider making it an action we can reuse
@@ -49,8 +67,8 @@ runs:
       uses: platformsh/gha-check-url@main
       with:
         test_url: ${{ inputs.test_url }}
-        # sometimes the PR environment hasnt procured its ssl certificate before the tests begin
-        allow_insecure: 'true'
+        https_response: ${{ inputs.test_url_response }}
+        allow_insecure: ${{ inputs.test_url_insecure }}
     #
     # Check that what the calling workflow gave us for report_results is something we can use
     - name: 'Verify return value'
