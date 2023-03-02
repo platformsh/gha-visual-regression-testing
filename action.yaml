@@ -57,7 +57,7 @@ runs:
       uses: platformsh/gha-check-url@main
       with:
         test_url: ${{ inputs.baseline_url }}
-        https_response: ${{ inputs.baseline_url_response }}
+        http_response: ${{ inputs.baseline_url_response }}
         allow_insecure: ${{ inputs.baseline_url_insecure }}
     #
     # Test that the URL for the site to test returns a 200
@@ -67,7 +67,7 @@ runs:
       uses: platformsh/gha-check-url@main
       with:
         test_url: ${{ inputs.test_url }}
-        https_response: ${{ inputs.test_url_response }}
+        http_response: ${{ inputs.test_url_response }}
         allow_insecure: ${{ inputs.test_url_insecure }}
     #
     # Check that what the calling workflow gave us for report_results is something we can use
