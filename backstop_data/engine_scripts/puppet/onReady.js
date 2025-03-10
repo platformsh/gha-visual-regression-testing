@@ -19,7 +19,6 @@ module.exports = async (page, scenario, vp) => {
   try {
     await require(readyFile)(page,scenario)
   } catch (e) {
-    console.log('uh-oh, trying to require our custom onReady failed')
-    console.error(e)
+    // not having a custom onReady file is an expected potential outcome, so we don't need to do anything
   }
 };
